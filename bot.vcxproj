@@ -129,7 +129,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BaseLocation.cpp" />
+    <ClCompile Include="Bot.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="GameMap.cpp" />
+    <ClCompile Include="Filters.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BaseLocation.h" />
+    <ClInclude Include="Bot.h" />
+    <ClInclude Include="Filters.h" />
+    <ClInclude Include="GameMap.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
