@@ -4,14 +4,14 @@
 #include <algorithm>
 #include <iostream>
 #include "Filters.h"
+#include "BaseLocation.h"
 
 using sc2::Units; using sc2::Unit;
 using std::vector; using std::remove;
 using std::cout; using std::endl;
 using sc2::Point3D;
 
-vector<Point3D> GetCenterOfResourceClusters(const vector<Units> & resourceClusters);
-vector<Units> GetResourceClusters(Units);
+
 
 GameMap::GameMap(Bot & bot)
 	: m_bot(bot)
@@ -22,15 +22,24 @@ GameMap::GameMap(Bot & bot)
 void GameMap::OnStart() {
 	m_width = m_bot.Observation()->GetGameInfo().width;
 	m_height = m_bot.Observation()->GetGameInfo().height;
+
+	// Initialize m_baseLocations
 	Units resources = m_bot.Observation()->GetUnits(Unit::Alliance::Neutral, Filters::resourceFilter);
 	vector<Units> resourceClusters = GetResourceClusters(resources);
-	cout << resourceClusters.size() << endl;
-	vector<Point3D> centers = GetCenterOfResourceClusters(resourceClusters);
+	for (const auto& cluster : resourceClusters) {
+		BaseLocation temp{ cluster };
+		m_baseLocations.push_back(temp);
+	}
+
+	for (const auto &location : m_baseLocations) {
+		m_bot.Debug()->DebugSphereOut(location.Center(), 1.0f, Colors::Red);
+	}
+	m_bot.Debug()->SendDebug();
 }
 
 // Helper functions
 
-vector<Units> GetResourceClusters(Units resources) {
+vector<Units> GameMap::GetResourceClusters(Units resources) {
 	const float maxSquareDistance = 400;
 	vector<Units> resourceClusters;
 	while (!resources.empty()) {
@@ -50,20 +59,4 @@ vector<Units> GetResourceClusters(Units resources) {
 		resourceClusters.push_back(cluster);
 	}
 	return resourceClusters;
-}
-
-vector<Point3D> GetCenterOfResourceClusters(const vector<Units> & resourceClusters) {
-	vector<Point3D> clusterCenters;
-	clusterCenters.reserve(resourceClusters.size());
-	for (const auto& cluster : resourceClusters) {
-		Point3D clusterCenter{ 0.0f, 0.0f, 0.0f };
-		for (const auto& resource : cluster) {
-			clusterCenter += resource.pos;
-		}
-		clusterCenter.x /= cluster.size();
-		clusterCenter.y /= cluster.size();
-		clusterCenter.z /= cluster.size();
-		clusterCenters.push_back(clusterCenter);
-	}
-	return clusterCenters;
 }
