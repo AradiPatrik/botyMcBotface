@@ -2,7 +2,6 @@
 #include <sc2api\sc2_api.h>
 #include "BaseLocation.h"
 #include <vector>
-#include <map>
 
 using namespace std;
 using namespace sc2;
@@ -13,13 +12,16 @@ class GameMap {
 	vector<BaseLocation> m_baseLocations;
 	int m_width;
 	int m_height;
+	vector<Point2DI> m_reservedTiles;
 
-	// TODO: initialize this
-	map<Point2D, bool> m_buildableGrid;
 	vector<Units> GetResourceClusters(Units);
+	bool IsTileReserved(const Point2DI &);
 
 public:
 	GameMap(Bot &);
 	void OnStart();
+	void ReserveTiles(const vector<Point2DI> &);
+	bool IsTilePlaceable(const Point2DI &);
+
 };
 

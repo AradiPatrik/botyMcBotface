@@ -5,11 +5,17 @@
 using namespace std;
 using namespace sc2;
 
+class GameMap;
 class BaseLocation {
 	Units m_resources;
 	Point3D m_centerOfResources;
+	Point3D m_basePosition;
+	GameMap & m_map;
 	void FindCenterOfResources();
+	void FindBasePosition();
+
 public:
-	BaseLocation(const Units &);
+	BaseLocation(const Units &, GameMap &);
 	const Point3D Center() const;
+	const Point3D BasePosition() const;
 };
