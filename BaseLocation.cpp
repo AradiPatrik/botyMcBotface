@@ -1,15 +1,19 @@
 #include "BaseLocation.h"
 #include "GameMap.h"
+#include "Filters.h"
 
-BaseLocation::BaseLocation(const Units & resources, GameMap & map) 
+BaseLocation::BaseLocation(const sc2::Units & resources, GameMap & map)
 	: m_resources(resources)
-	, m_centerOfResources{0.0f, 0.0f, 0.0f}
+	, m_centerOfResources{ 0.0f, 0.0f, 0.0f }
 	, m_map(map)
+	, m_orientation(Orientation::NOT_SET)
 {
 	FindCenterOfResources();
+	SplitResources();
 }
 
-const Point3D BaseLocation::Center() const {
+// !The center of the resources, not equals the base position
+const sc2::Point3D BaseLocation::Center() const {
 	return m_centerOfResources;
 }
 
@@ -22,7 +26,19 @@ void BaseLocation::FindCenterOfResources() {
 	m_centerOfResources.z /= m_resources.size();
 }
 
-void BaseLocation::FindBasePosition() {
-	
+void BaseLocation::SplitResources() {
+	for (const auto &resource : m_resources) {
+		if (Filters::isMineral(resource)) {
+			m_minerals.push_back(resource);
+		} else {
+			m_resources.push_back(resource);
+		}
+	}
 }
 
+void BaseLocation::FindOrientation() {}
+
+void BaseLocation::FindBasePosition() {}
+
+void BaseLocation::DrawCenters() {
+}

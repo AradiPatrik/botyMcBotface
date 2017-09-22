@@ -3,24 +3,20 @@
 #include <algorithm>
 #include "Bot.h"
 
-using namespace sc2;
-
 int main(int argc, char* argv[]) {
-	Coordinator coordinator;
+	sc2::Coordinator coordinator;
 	coordinator.LoadSettings(argc, argv);
 
 	Bot bot;
 	coordinator.SetParticipants({
-		CreateParticipant(Race::Terran, &bot),
-		CreateComputer(Race::Zerg)
+		CreateParticipant(sc2::Race::Terran, &bot),
+		CreateComputer(sc2::Race::Zerg)
 	});
 
 	coordinator.LaunchStarcraft();
 	coordinator.StartGame(sc2::kMapBelShirVestigeLE);
 
-
 	while (coordinator.Update()) {
-
 	}
 
 	return 0;

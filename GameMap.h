@@ -3,25 +3,23 @@
 #include "BaseLocation.h"
 #include <vector>
 
-using namespace std;
-using namespace sc2;
-
 class Bot;
+// !Contains base positions
 class GameMap {
 	Bot & m_bot;
-	vector<BaseLocation> m_baseLocations;
+	std::vector<BaseLocation> m_baseLocations;
 	int m_width;
 	int m_height;
-	vector<Point2DI> m_reservedTiles;
+	std::vector<sc2::Point2DI> m_reservedTiles;
 
-	vector<Units> GetResourceClusters(Units);
-	bool IsTileReserved(const Point2DI &);
+	std::vector<sc2::Units> ClusterResources(sc2::Units);
+	bool IsTileReserved(const sc2::Point2DI &);
 
 public:
 	GameMap(Bot &);
 	void OnStart();
-	void ReserveTiles(const vector<Point2DI> &);
-	bool IsTilePlaceable(const Point2DI &);
-
+	void ReserveTiles(const std::vector<sc2::Point2DI> &);
+	// !This function takes tile index as parameter, which can be calculated as: (int)(Point + 0.5f)
+	bool IsTilePlaceable(const sc2::Point2DI &);
+	void DrawPlaceableGrid();
 };
-

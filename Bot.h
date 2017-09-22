@@ -3,14 +3,12 @@
 
 #include "GameMap.h"
 
-using sc2::Agent;
-
-class Bot : public Agent {
-
+class Bot : public sc2::Agent {
 	GameMap m_map;
 
 public:
 	Bot();
 	virtual void OnGameStart() final;
+	virtual void OnUnitIdle(const sc2::Unit &) final;
+	virtual void OnStep() final;
 };
-
