@@ -21,11 +21,11 @@ class BaseLocation {
 	sc2::Units m_resources;
 	sc2::Units m_geisers;
 	sc2::Units m_minerals;
-	sc2::Point3D m_centerOfResources;
+	sc2::Point3D m_centerOfMinerals;
 	sc2::Point3D m_basePosition;
 	Orientation m_orientation;
 	GameMap & m_map;
-	void FindCenterOfResources();
+	void FindCenterOfMinerals();
 	void FindBasePosition();
 	void FindOrientation();
 	void SplitResources();
@@ -33,6 +33,6 @@ class BaseLocation {
 
 public:
 	BaseLocation(const sc2::Units &, GameMap &);
-	const sc2::Point3D Center() const;
+	const sc2::Point3D GetCenterOfMinerals() const;
 	const sc2::Point3D BasePosition() const;
 };

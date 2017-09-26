@@ -13,6 +13,7 @@ GameMap::GameMap(Bot &bot)
 	, m_height(0) {}
 
 void GameMap::OnStart() {
+	// this needs cleaning up
 	m_width = m_bot.Observation()->GetGameInfo().width;
 	m_height = m_bot.Observation()->GetGameInfo().height;
 
@@ -24,18 +25,23 @@ void GameMap::OnStart() {
 		m_baseLocations.push_back(temp);
 	}
 
-	DrawPlaceableGrid();
+	// DrawPlaceableGrid();
+	for (const auto& baseLocation : m_baseLocations) {
+		Utils::DrawSquareAroundPoint(*m_bot.Debug(), baseLocation.GetCenterOfMinerals());
+	}
 
 	m_bot.Debug()->SendDebug();
 }
 
 void GameMap::ReserveTiles(const std::vector<sc2::Point2DI> &tiles) {
+	// TODO: check if tile is already reserved
 	for (const auto& tile : tiles) {
 		m_reservedTiles.push_back(tile);
 	}
 }
 
 bool GameMap::IsTileReserved(const sc2::Point2DI &tile) {
+	// TODO: test this
 	for (const auto &reservedTile : m_reservedTiles) {
 		if (tile == reservedTile)
 			return true;
@@ -44,11 +50,8 @@ bool GameMap::IsTileReserved(const sc2::Point2DI &tile) {
 }
 
 bool GameMap::IsTilePlaceable(const sc2::Point2DI &tile) {
-	unsigned char encodedPlacement = m_bot.Observation()
-		->GetGameInfo()
-		.placement_grid
-		.data[tile.x + ((m_height - 1) - tile.y) * m_width];
-	return encodedPlacement == 255 && !IsTileReserved(tile);
+	// TODO: test this
+	return Utils::IsPlaceable(m_bot.Observation()->GetGameInfo(), tile) && !IsTileReserved(tile);
 }
 
 void GameMap::DrawPlaceableGrid() {
@@ -65,6 +68,7 @@ void GameMap::DrawPlaceableGrid() {
 }
 
 std::vector<sc2::Units> GameMap::ClusterResources(sc2::Units resources) {
+	// tweak this if something broken about clustering
 	const float maxSquareDistance = 400;
 	std::vector<sc2::Units> resourceClusters;
 	while (!resources.empty()) {
@@ -84,4 +88,8 @@ std::vector<sc2::Units> GameMap::ClusterResources(sc2::Units resources) {
 		resourceClusters.push_back(cluster);
 	}
 	return resourceClusters;
+}
+
+void GameMap::DrawBoxAroundPoint(const sc2::Point3D& point, float radius, sc2::Color color) {
+	Utils::DrawSquareAroundPoint(*m_bot.Debug(), point, radius, color);
 }

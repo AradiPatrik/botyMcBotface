@@ -8,5 +8,5 @@ namespace Utils {
 	float HeightAtTile(const sc2::GameInfo &, size_t, size_t);
 
 	// !draws square around unit
-	void DrawSquareAroundPoint(sc2::DebugInterface &, const sc2::Point3D &, float, sc2::Color = sc2::Colors::White);
+	void DrawSquareAroundPoint(sc2::DebugInterface &, const sc2::Point3D &, float = 1.0f, sc2::Color = sc2::Colors::White);
 }
