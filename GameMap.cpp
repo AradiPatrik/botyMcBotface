@@ -3,7 +3,7 @@
 
 #include <algorithm>
 #include <iostream>
-#include "Filters.h"
+#include "Predicates.h"
 #include "BaseLocation.h"
 #include "Utils.h"
 
@@ -18,7 +18,7 @@ void GameMap::OnStart() {
 	m_height = m_bot.Observation()->GetGameInfo().height;
 
 	// Initialize m_baseLocations
-	sc2::Units resources = m_bot.Observation()->GetUnits(sc2::Unit::Alliance::Neutral, Filters::isResource);
+	sc2::Units resources = m_bot.Observation()->GetUnits(sc2::Unit::Alliance::Neutral, Predicates::isResource);
 	std::vector<sc2::Units> resourceClusters = ClusterResources(resources);
 	for (const auto& cluster : resourceClusters) {
 		BaseLocation temp{ cluster, *this };
@@ -26,9 +26,6 @@ void GameMap::OnStart() {
 	}
 
 	// DrawPlaceableGrid();
-	for (const auto& baseLocation : m_baseLocations) {
-		Utils::DrawSquareAroundPoint(*m_bot.Debug(), baseLocation.GetCenterOfMinerals());
-	}
 
 	m_bot.Debug()->SendDebug();
 }
@@ -81,7 +78,8 @@ std::vector<sc2::Units> GameMap::ClusterResources(sc2::Units resources) {
 				cluster.push_back(*iterator);
 				relativeTo == iterator->pos;
 				iterator = resources.erase(iterator);
-			} else {
+			}
+			else {
 				++iterator;
 			}
 		}
@@ -92,4 +90,8 @@ std::vector<sc2::Units> GameMap::ClusterResources(sc2::Units resources) {
 
 void GameMap::DrawBoxAroundPoint(const sc2::Point3D& point, float radius, sc2::Color color) {
 	Utils::DrawSquareAroundPoint(*m_bot.Debug(), point, radius, color);
+}
+
+void GameMap::DrawLineBetweenPoints(const sc2::Point3D& first, const sc2::Point3D& second, sc2::Color color) {
+	m_bot.Debug()->DebugLineOut(first, second, color);
 }

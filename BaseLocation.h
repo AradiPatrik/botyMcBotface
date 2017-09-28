@@ -1,9 +1,10 @@
 #pragma once
 #include <vector>
+#include <array>
 #include <sc2api/sc2_api.h>
 
-// !Defines where the minerals are relative to the BasePosition
-enum class Orientation {
+// !Indicates position of the minerals relative to the center
+enum class ORIENTATION {
 	TOP,
 	TOP_RIGHT,
 	RIGHT,
@@ -18,21 +19,22 @@ enum class Orientation {
 class GameMap;
 // !Used for getting data about an expansion
 class BaseLocation {
+	static const std::array<ORIENTATION, 9> orientations;
 	sc2::Units m_resources;
 	sc2::Units m_geisers;
 	sc2::Units m_minerals;
 	sc2::Point3D m_centerOfMinerals;
 	sc2::Point3D m_basePosition;
-	Orientation m_orientation;
+	ORIENTATION m_orientation;
 	GameMap & m_map;
+
 	void FindCenterOfMinerals();
 	void FindBasePosition();
 	void FindOrientation();
 	void SplitResources();
-	void DrawCenters();
 
 public:
 	BaseLocation(const sc2::Units &, GameMap &);
 	const sc2::Point3D GetCenterOfMinerals() const;
-	const sc2::Point3D BasePosition() const;
+	const sc2::Point3D GetBasePosition() const;
 };

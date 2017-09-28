@@ -133,13 +133,13 @@
     <ClCompile Include="Bot.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="GameMap.cpp" />
-    <ClCompile Include="Filters.cpp" />
+    <ClCompile Include="Predicates.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseLocation.h" />
     <ClInclude Include="Bot.h" />
-    <ClInclude Include="Filters.h" />
+    <ClInclude Include="Predicates.h" />
     <ClInclude Include="GameMap.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
