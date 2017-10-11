@@ -6,7 +6,8 @@
 
 class Bot;
 // !Contains base positions
-class GameMap {
+class GameMap
+{
 	Bot & m_bot;
 	std::vector<BaseLocation> m_baseLocations;
 	int m_width;
@@ -20,11 +21,11 @@ public:
 	GameMap(Bot &);
 	void OnStart();
 	// !Reserve a Tile for construction
-	void ReserveTiles(const std::vector<sc2::Point2DI> &);
+	void ReserveTiles(const std::vector<sc2::Point2DI> & tiles);
 	// !This function takes tile index as parameter, which can be calculated as: (int)(Point + 0.5f)
 	// !Checks if tile is reserved and placeable
-	bool IsTilePlaceable(const sc2::Point2DI &);
+	bool IsTilePlaceable(const sc2::Point2DI &tile);
 	void DrawPlaceableGrid();
-	void DrawBoxAroundPoint(const sc2::Point3D& point, float = 1.0, sc2::Color = sc2::Colors::White);
-	void DrawLineBetweenPoints(const sc2::Point3D&, const sc2::Point3D&, sc2::Color = sc2::Colors::White);
+	void DrawBoxAroundPoint(const sc2::Point3D &point, float radius = 1.0, sc2::Color color = sc2::Colors::White);
+	void DrawLineBetweenPoints(const sc2::Point3D &first, const sc2::Point3D &second, sc2::Color color = sc2::Colors::White);
 };

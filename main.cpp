@@ -3,7 +3,8 @@
 #include <algorithm>
 #include "Bot.h"
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[])
+{
 	sc2::Coordinator coordinator;
 	coordinator.LoadSettings(argc, argv);
 
@@ -16,7 +17,8 @@ int main(int argc, char* argv[]) {
 	coordinator.LaunchStarcraft();
 	coordinator.StartGame(sc2::kMapBelShirVestigeLE);
 
-	while (coordinator.Update()) {
+	while (coordinator.Update())
+	{
 	}
 
 	return 0;

@@ -4,7 +4,8 @@
 #include <sc2api/sc2_api.h>
 
 // !Indicates position of the minerals relative to the center
-enum class ORIENTATION {
+enum class ORIENTATION
+{
 	TOP,
 	TOP_RIGHT,
 	RIGHT,
@@ -18,7 +19,8 @@ enum class ORIENTATION {
 
 class GameMap;
 // !Used for getting data about an expansion
-class BaseLocation {
+class BaseLocation
+{
 	static const std::array<ORIENTATION, 9> orientations;
 	sc2::Units m_resources;
 	sc2::Units m_geisers;
@@ -34,7 +36,7 @@ class BaseLocation {
 	void SplitResources();
 
 public:
-	BaseLocation(const sc2::Units &, GameMap &);
+	BaseLocation(const sc2::Units &resources, GameMap &map);
 	const sc2::Point3D GetCenterOfMinerals() const;
 	const sc2::Point3D GetBasePosition() const;
 };
